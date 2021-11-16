@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "io.github.jodlodi.twilighttweaks.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "minVersion": "0.8",
+  "mixins": [
+    "MixinFinalBossSpawnerTileEntity",
+    "MixinTransformPowderItem"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "refmap": "twilighttweaks.mixin-refmap.json"
+}

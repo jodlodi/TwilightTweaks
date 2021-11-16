@@ -1,0 +1,26 @@
+{
+  "type": "twilighttweaks:uncrafting",
+  "group": "twilighttweaks",
+  "replace": true,
+  "cost": 1,
+  "ingredient": {
+    "item": "minecraft:bell",
+    "count": 1
+  },
+  "pattern": [
+    "111",
+    " 0 ",
+    "202"
+  ],
+  "key": {
+    "0": {
+      "item": "minecraft:gold_ingot"
+    },
+    "1": {
+      "item": "minecraft:stick"
+    },
+    "2": {
+      "item": "minecraft:gold_nugget"
+    }
+  }
+}
