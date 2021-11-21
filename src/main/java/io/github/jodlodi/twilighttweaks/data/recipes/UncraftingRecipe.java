@@ -6,7 +6,6 @@ import com.google.gson.*;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.JSONUtils;
@@ -14,6 +13,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistryEntry;
+import twilightforest.block.TFBlocks;
 
 import javax.annotation.Nullable;
 import java.util.Map;
@@ -25,11 +25,6 @@ import static net.minecraftforge.common.crafting.CraftingHelper.getItemStack;
 public class UncraftingRecipe implements IUncraftingRecipe, IShapedUncraftingRecipe<CraftingInventory> {
     static int MAX_WIDTH = 3;
     static int MAX_HEIGHT = 3;
-
-    /*public static void setCraftingSize(int width, int height) {
-        if (MAX_WIDTH < width) MAX_WIDTH = width;
-        if (MAX_HEIGHT < height) MAX_HEIGHT = height;
-    }*/
 
     private final ResourceLocation id;
     private final String group;
@@ -55,12 +50,20 @@ public class UncraftingRecipe implements IUncraftingRecipe, IShapedUncraftingRec
         return this.id;
     }
 
-    public IRecipeSerializer<?> getSerializer() {
-        return ModRecipeTypes.UNCRAFTING_SERIALIZER.get();
-    }
-
     public String getGroup() {
         return this.group;
+    }
+
+    public boolean getReplace() {
+        return this.replace;
+    }
+
+    public int getCost() {
+        return this.cost;
+    }
+
+    public IRecipeSerializer<?> getSerializer() {
+        return ModRecipeTypes.UNCRAFTING_SERIALIZER.get();
     }
 
     public ItemStack getResultItem() {
@@ -106,19 +109,14 @@ public class UncraftingRecipe implements IUncraftingRecipe, IShapedUncraftingRec
         return ItemStack.EMPTY;
     }
 
-    public int getRecipeWidth() {
-        return this.width;
+    @Override
+    public boolean isSpecial() {
+        return true;
     }
 
-    public int getRecipeHeight() {
-        return this.height;
-    }
-
-    public static class UncraftingRecipeType implements IRecipeType<UncraftingRecipe> {
-        @Override
-        public String toString() {
-            return UncraftingRecipe.RESOURCE_LOCATION.toString();
-        }
+    @Override
+    public ItemStack getToastSymbol() {
+        return TFBlocks.uncrafting_table.get().asItem().getDefaultInstance();
     }
 
     public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<UncraftingRecipe> {

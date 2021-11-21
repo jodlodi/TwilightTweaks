@@ -5,7 +5,9 @@
   "minVersion": "0.8",
   "mixins": [
     "MixinFinalBossSpawnerTileEntity",
-    "MixinTransformPowderItem"
+    "MixinFinalCastleBossGazeboComponent",
+    "MixinTransformPowderItem",
+    "MixinUncraftingContainer"
   ],
   "injectors": {
     "defaultRequire": 1

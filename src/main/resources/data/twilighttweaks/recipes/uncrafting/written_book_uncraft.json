@@ -1,0 +1,21 @@
+{
+  "type": "twilighttweaks:uncrafting",
+  "group": "twilighttweaks",
+  "replace": false,
+  "cost": 2,
+  "ingredient": {
+    "item": "minecraft:written_book",
+    "count": 1
+  },
+  "pattern": [
+    "01 "
+  ],
+  "key": {
+    "0": {
+      "item": "minecraft:book"
+    },
+    "1": {
+      "item": "minecraft:ink_sac"
+    }
+  }
+}

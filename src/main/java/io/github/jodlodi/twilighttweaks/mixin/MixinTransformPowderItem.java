@@ -13,8 +13,8 @@ import java.util.Map;
 @Mixin(TransformPowderItem.class)
 public abstract class MixinTransformPowderItem extends Item {
     //I know this can be OP, but it's meant for modpack creators to be able to set up exactly what turns into what
-    public MixinTransformPowderItem(Properties p_i48487_1_) {
-        super(p_i48487_1_);
+    public MixinTransformPowderItem(Properties properties) {
+        super(properties);
     }
 
     @Redirect(method = "interactLivingEntity", at = @At(value = "FIELD" , target = "Ltwilightforest/item/TransformPowderItem;transformMap:Ljava/util/Map;"))

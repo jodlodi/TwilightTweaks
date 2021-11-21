@@ -15,12 +15,8 @@ public class ConfigSetup {
             for (String s : splitString) {
                 String[] splitSplit = s.split("-");
                 if (splitSplit.length > 1) {
-                    for (int o = 0; o < splitSplit.length - 1; o++) {
-                        addCustomTransformation(splitSplit[o], splitSplit[o + 1]);
-                    }
-                    if (b == 0) {
-                        addCustomTransformation(splitSplit[splitSplit.length - 1], splitSplit[0]);
-                    }
+                    for (int o = 0; o < splitSplit.length - 1; o++) addCustomTransformation(splitSplit[o], splitSplit[o + 1]);
+                    if (b == 0) addCustomTransformation(splitSplit[splitSplit.length - 1], splitSplit[0]);
                 }
             }
         }

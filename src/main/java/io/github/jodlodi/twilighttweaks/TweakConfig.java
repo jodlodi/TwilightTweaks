@@ -40,9 +40,10 @@ public class TweakConfig {
                     comment("Here you can set what command gets executed when the final boss spawner is activated." +
                             "\nType in the command you want to happen the exact same way as you would in game." +
                             "\nFor example, typing \"summon minecraft:skeleton ~ ~ ~\" will summon a normal skeleton and typing \"summon zombie ~ ~ ~ {Invulnerable:1,HandItems:[{Count:1,id:wooden_sword},{}]}\" will summon an invincible zombie that is holding a wooden sword." +
+                            "\nBy default, the spawner runs \"function twilighttweaks:final_boss_example\", which is a mcfunction made for the mod that runs several commands in a row. Mcfunctions are a vanilla feature and you can google how to make one of your own." +
                             "\nAny command can be ran once, after which the spawner will break itself.").
                     push("FINAL BOSS SPAWNER");
-            finalCommandCustom = builder.define("The command that the spawner should run: ", "");
+            finalCommandCustom = builder.define("The command that the spawner should run: ", "function twilighttweaks:final_boss_example");
         }
     }
 

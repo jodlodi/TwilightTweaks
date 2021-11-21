@@ -1,27 +1,32 @@
 package io.github.jodlodi.twilighttweaks.jei;
 
 import io.github.jodlodi.twilighttweaks.TwilightTweaks;
+import io.github.jodlodi.twilighttweaks.data.recipes.ModRecipeTypes;
+import io.github.jodlodi.twilighttweaks.data.recipes.UncraftingRecipe;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaRecipeCategoryUid;
-import mezz.jei.api.registration.*;
+import mezz.jei.api.registration.IRecipeCatalystRegistration;
+import mezz.jei.api.registration.IRecipeCategoryRegistration;
+import mezz.jei.api.registration.IRecipeRegistration;
+import mezz.jei.api.registration.IRecipeTransferRegistration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.ICraftingRecipe;
+import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.util.ResourceLocation;
 import twilightforest.block.TFBlocks;
-import twilightforest.client.UncraftingGui;
 import twilightforest.inventory.UncraftingContainer;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @JeiPlugin
 public class UncraftingPlugin implements IModPlugin {
     @Override
     public ResourceLocation getPluginUid() {
         return TwilightTweaks.twilightResource("uncrafting_jei");
-    }//TODO:FIX REG "twilighttweaks:uncrafting"
+    }
 
     @Override
     public void registerCategories(IRecipeCategoryRegistration registration) {
@@ -30,8 +35,8 @@ public class UncraftingPlugin implements IModPlugin {
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
-        registration.addRecipeCatalyst(new ItemStack(TFBlocks.uncrafting_table.get()), UncraftingCategory.id);
         registration.addRecipeCatalyst(new ItemStack(TFBlocks.uncrafting_table.get()), VanillaRecipeCategoryUid.CRAFTING);
+        registration.addRecipeCatalyst(new ItemStack(TFBlocks.uncrafting_table.get()), UncraftingCategory.id);
     }
 
     @Override
@@ -41,16 +46,14 @@ public class UncraftingPlugin implements IModPlugin {
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
-        List<ICraftingRecipe> recipes = null;
         if (Minecraft.getInstance().level != null) {
-            recipes = Minecraft.getInstance().level.getRecipeManager().getRecipes().stream().filter(ICraftingRecipe.class::isInstance).map(ICraftingRecipe.class::cast).collect(Collectors.toList());
-            registration.addRecipes(recipes, UncraftingCategory.id);
+            List<UncraftingRecipe> uncraftingRecipes = Minecraft.getInstance().level.getRecipeManager().getAllRecipesFor(ModRecipeTypes.UNCRAFTING_RECIPE); //Get one-way Uncrafting recipes
+            List<ItemStack> replacements = new ArrayList<>();
+            uncraftingRecipes.stream().filter(UncraftingRecipe::getReplace).forEach(u -> replacements.add(u.getResultItem())); //Get items from uncrafting recipes marked with replace
+            List<ICraftingRecipe> craftingRecipes = Minecraft.getInstance().level.getRecipeManager().getAllRecipesFor(IRecipeType.CRAFTING); //Get vanilla recipes
+            craftingRecipes.removeIf(r -> r.getResultItem().isEmpty() || replacements.stream().anyMatch(s -> s.sameItem(r.getResultItem()))); //Remove empty ones or ones that have a replacer as a result
+            craftingRecipes.addAll(uncraftingRecipes);
+            registration.addRecipes(craftingRecipes, UncraftingCategory.id);
         }
-    }
-
-    @Override
-    public void registerGuiHandlers(IGuiHandlerRegistration registration) {
-        registration.addRecipeClickArea(UncraftingGui.class, 34, 33, 27, 20, UncraftingCategory.id);
-        registration.addRecipeClickArea(UncraftingGui.class, 118, 33, 27, 20, VanillaRecipeCategoryUid.CRAFTING);
     }
 }

@@ -7,7 +7,4 @@ import net.minecraft.util.ResourceLocation;
 
 public interface IShapedUncraftingRecipe<T extends IInventory> extends IRecipe<T> {
     ResourceLocation RESOURCE_LOCATION = TwilightTweaks.twilightResource("uncrafting");
-
-    int getRecipeWidth();
-    int getRecipeHeight();
 }

@@ -2,7 +2,7 @@
   "type": "twilighttweaks:uncrafting",
   "group": "twilighttweaks",
   "replace": true,
-  "cost": 1,
+  "cost": 3,
   "ingredient": {
     "item": "minecraft:bell",
     "count": 1
