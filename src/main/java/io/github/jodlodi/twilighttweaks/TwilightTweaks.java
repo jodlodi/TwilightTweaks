@@ -1,37 +1,40 @@
 package io.github.jodlodi.twilighttweaks;
 
+import io.github.jodlodi.twilighttweaks.data.recipes.DefaultUncrafts;
 import io.github.jodlodi.twilighttweaks.data.recipes.ModRecipeTypes;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-@Mod(TwilightTweaks.MOD_ID)
-@Mod.EventBusSubscriber(modid = TwilightTweaks.MOD_ID)
+import java.io.File;
+
+@EventBusSubscriber
+@Mod(modid = TwilightTweaks.MODID, name = TwilightTweaks.NAME, version = TwilightTweaks.VERSION, dependencies = "required-after:twilightforest")
 public class TwilightTweaks
 {
-    public static final String MOD_ID = "twilighttweaks";
+    public static File config;
 
-    public TwilightTweaks() {
-        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-        MinecraftForge.EVENT_BUS.register(this);
+    public static final String MODID = "twilighttweaks";
+    public static final String NAME = "Twilight Tweaks";
+    public static final String VERSION = "1.0";
 
-        bus.addListener(this::configSetup);
-        ModRecipeTypes.register(bus);
-
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, TweakConfig.COMMON_SPEC);
+    @EventHandler
+    public void preInit(FMLPreInitializationEvent event) {
+        TweakConfig.registerConfig(event);
     }
 
-    private void configSetup(ModConfig.ModConfigEvent event) {
-        TweakConfig.refresh();
+    @EventHandler
+    public void init(FMLInitializationEvent event) {
         String[] input = {TweakConfig.loopCustom, TweakConfig.linearCustom};
         ConfigSetup.addCustomInitTransformations(input);
+        DefaultUncrafts.init();
+        ModRecipeTypes.init();
     }
 
     public static ResourceLocation twilightResource(String key) {
-        return new ResourceLocation(TwilightTweaks.MOD_ID, key);
+        return new ResourceLocation(TwilightTweaks.MODID, key);
     }
 }

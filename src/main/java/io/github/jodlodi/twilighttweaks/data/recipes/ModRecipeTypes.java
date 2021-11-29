@@ -1,21 +1,32 @@
 package io.github.jodlodi.twilighttweaks.data.recipes;
 
 import io.github.jodlodi.twilighttweaks.TwilightTweaks;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.RegistryObject;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.Mod;
+import twilightforest.block.TFBlocks;
+import twilightforest.item.TFItems;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+@Mod.EventBusSubscriber(modid = TwilightTweaks.MODID)
 public class ModRecipeTypes {
-    public static final DeferredRegister<IRecipeSerializer<?>> RECIPE_SERIALIZER = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, TwilightTweaks.MOD_ID);
+    public static ResourceLocation UNCRAFTING;
+    public static final List<UncraftingRecipe> uncraftingRecipes = new ArrayList<>();
+    public static List<Item> bannedUncraft = Arrays.asList(TFItems.shield_scepter, TFItems.lifedrain_scepter, TFItems.twilight_scepter, TFItems.zombie_scepter);
 
-    public static final RegistryObject<UncraftingRecipe.Serializer> UNCRAFTING_SERIALIZER = RECIPE_SERIALIZER.register("uncrafting", UncraftingRecipe.Serializer::new);
+    public static UncraftingRecipe regRecipes(Boolean replace, int cost, int width, int height, NonNullList<Ingredient> recipeItems, ItemStack result) {
+        UncraftingRecipe recipe = new UncraftingRecipe(replace, cost, width, height, recipeItems, result);
+        uncraftingRecipes.add(recipe);
+        return recipe;
+    }
 
-    public static final IRecipeType<UncraftingRecipe> UNCRAFTING_RECIPE = IRecipeType.register("twilighttweaks:uncrafting");
-
-    public static void register(IEventBus eventBus) {
-        RECIPE_SERIALIZER.register(eventBus);
+    public static void init() {
+        UNCRAFTING = TFBlocks.uncrafting_table.getRegistryName();
     }
 }

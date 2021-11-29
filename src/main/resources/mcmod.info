@@ -1,0 +1,16 @@
+[
+{
+  "modid": "twilighttweaks",
+  "name": "Twilight Tweaks",
+  "description": "Tweaks to the Twilight Forest mod.",
+  "version": "1.0",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["jodlodi"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

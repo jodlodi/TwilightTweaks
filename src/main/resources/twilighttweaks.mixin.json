@@ -1,16 +1,17 @@
 {
   "required": true,
-  "package": "io.github.jodlodi.twilighttweaks.mixin",
   "compatibilityLevel": "JAVA_8",
+  "package": "io.github.jodlodi.twilighttweaks.mixin",
   "minVersion": "0.8",
+  "setSourceFile": true,
+  "priority": 0,
+  "refmap": "twilighttweaks.mixin-refmap.json",
   "mixins": [
     "MixinFinalBossSpawnerTileEntity",
     "MixinFinalCastleBossGazeboComponent",
     "MixinTransformPowderItem",
     "MixinUncraftingContainer"
   ],
-  "injectors": {
-    "defaultRequire": 1
-  },
-  "refmap": "twilighttweaks.mixin-refmap.json"
+  "client": [],
+  "server": []
 }

@@ -1,15 +1,15 @@
 package io.github.jodlodi.twilighttweaks;
 
-import net.minecraft.entity.EntityType;
+import net.minecraft.util.ResourceLocation;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("ALL")
 public class ConfigSetup {
-    public static final Map<EntityType<?>, EntityType<?>> customTransformMap = new HashMap();
+    public static final Map<ResourceLocation, ResourceLocation> customTransformMap = new HashMap();
 
     public static void addCustomInitTransformations(String[] inputStrings) {
-        //Example: minecraft:pig - minecraft:pig - minecraft:pig - minecraft:pig - minecraft:pig
         for (int b = 0; b < inputStrings.length; b++) {
             String[] splitString = inputStrings[b].split(" ");
             for (String s : splitString) {
@@ -22,7 +22,7 @@ public class ConfigSetup {
         }
     }
 
-    private static void addCustomTransformation(String from, String to){
-        customTransformMap.put(EntityType.byString(from).get(), EntityType.byString(to).get());
+    private static void addCustomTransformation(String from, String to) {
+        customTransformMap.put(new ResourceLocation(from), new ResourceLocation(to));
     }
 }

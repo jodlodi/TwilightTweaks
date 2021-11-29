@@ -1,121 +1,117 @@
 buildscript {
     repositories {
-        maven { url = 'https://maven.minecraftforge.net' }
-        maven { url = "https://repo.spongepowered.org/repository/maven-public/" }
+        maven { url = 'https://files.minecraftforge.net/maven' }
+        maven { url = "https://repo.spongepowered.org/maven" }
+        jcenter()
         mavenCentral()
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-        classpath group: "org.spongepowered", name: "mixingradle", version: "0.7-SNAPSHOT"
+        classpath 'net.minecraftforge.gradle:ForgeGradle:3.+'
+        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
     }
 }
+
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
 
+
 mixin {
     add sourceSets.main, "twilighttweaks.mixin-refmap.json"
 }
 
-version = '1.0'
-group = 'io.github.jodlodi.twilighttweaks'
-archivesBaseName = 'twilighttweaks'
+version = mod_version
+group = mod_group
+archivesBaseName = mod_id
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(8)
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
-println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
-    mappings channel: 'official', version: '1.16.5'
+    mappings channel: mappings_channel, version: mappings_version
     runs {
         client {
             workingDirectory project.file('run')
-            property 'forge.logging.markers', "SCAN,REGISTRIES,REGISTRYDUMP"
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             property 'forge.logging.console.level', 'debug'
-            property "mixin.env.disableRefMap", "true"
-            arg "-mixin.config=twilighttweaks.mixin.json"
-            mods {
-                twilighttweaks {
-                    source sourceSets.main
-                }
-            }
+            property 'fml.coreMods.load', mod_core_plugin.replace('${mod_group}', mod_group).replace('${mod_id}', mod_id)
         }
 
         server {
-            workingDirectory project.file('run')
-            property 'forge.logging.markers', "SCAN,REGISTRIES,REGISTRYDUMP"
+            property 'fml.coreMods.load', mod_core_plugin.replace('${mod_group}', mod_group).replace('${mod_id}', mod_id)
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             property 'forge.logging.console.level', 'debug'
-            property "mixin.env.disableRefMap", "true"
-            arg "-mixin.config=twilighttweaks.mixin.json"
-            mods {
-                twilighttweaks {
-                    source sourceSets.main
-                }
-            }
-        }
-
-        data {
-            workingDirectory project.file('run')
-            property 'forge.logging.markers', "SCAN,REGISTRIES,REGISTRYDUMP"
-            property 'forge.logging.console.level', 'debug'
-            args '--mod', 'twilighttweaks', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
-            mods {
-                twilighttweaks {
-                    source sourceSets.main
-                }
-            }
         }
     }
 }
 
-sourceSets.main.resources { srcDir 'src/generated/resources' }
-
-dependencies {
-    minecraft 'net.minecraftforge:forge:1.16.5-36.2.0'
-
-    implementation fg.deobf("curse.maven:twilightforest-227639:3413560")
-
-    compileOnly fg.deobf("mezz.jei:jei-1.16.5:7.7.1.110:api")
-    runtimeOnly fg.deobf("mezz.jei:jei-1.16.5:7.7.1.110")
-
-    annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
+repositories {
+    maven { url = "https://www.cursemaven.com" }
+    maven { url = "https://dvs1.progwml6.com/files/maven/" }
+    maven { url = "https://modmaven.k-4u.nl" }
+    maven { url = 'https://repo.spongepowered.org/maven' }
+    maven { url = "https://maven.blamejared.com" }
 }
 
-repositories {
-    maven { url "https://maven.jaackson.me" }
-    maven { url "https://www.cursemaven.com" }
-    maven { url "https://dvs1.progwml6.com/files/maven/" }
-    maven { url "https://modmaven.k-4u.nl" }
+configurations {
+    embed
+    compile.extendsFrom(embed)
+}
+
+dependencies {
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+    embed('org.spongepowered:mixin:0.8.3-SNAPSHOT') {
+        exclude module: 'guava'
+        exclude module: 'commons-io'
+        exclude module: 'gson'
+    }
+    implementation fg.deobf("curse.maven:twilightforest-227639:3051450")
+    compile "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.613"
+    compile fg.deobf("com.blamejared:MTLib:3.0.5.15")
+    compile "mezz.jei:jei_1.12.2:4.15.0.293"
+}
+
+processResources {
+    inputs.property "version", project.version
+    inputs.property "mcversion", minecraft_version
+
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+
+        expand 'mod_id': mod_id, 'mod_name': mod_name, 'version': project.version,
+                'mcversion': minecraft_version, 'mod_description': mod_description,
+                'mod_author': mod_author
+    }
+
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
 }
 
 jar {
+    from {
+        configurations.embed.collect { it.isDirectory() ? it : zipTree(it) }
+    } {
+        exclude "LICENSE.txt", "META-INF/MANIFSET.MF", "META-INF/maven/**", "META-INF/*.RSA", "META-INF/*.SF"
+    }
+
     manifest {
         attributes([
             "Specification-Title": "twilighttweaks",
             "Specification-Vendor": "jodlodi",
-            "Specification-Version": "1", // We are version 1 of ourselves
+            "Specification-Version": "1",
             "Implementation-Title": project.name,
             "Implementation-Version": "1.0",
             "Implementation-Vendor" :"jodlodi",
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+            "FMLCorePlugin": mod_core_plugin.replace('${mod_group}', mod_group).replace('${mod_id}', mod_id),
+            "FMLCorePluginContainsFMLMod": "false",
+            "ForceLoadAsMod": "true",
             "TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
             "TweakOrder": 0,
-            "MixinConfigs" : "twilighttweaks.mixin.json"
+            "MixinConfigs": "twilighttweaks.mixin.json"
         ])
     }
 }
 
 jar.finalizedBy('reobfJar')
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            artifact jar
-        }
-    }
-    repositories {
-        maven {
-            url "file:///${project.projectDir}/mcmodsrepo"
-        }
-    }
-}
