@@ -1,6 +1,7 @@
 package io.github.jodlodi.twilighttweaks.core;
 
 import net.minecraft.launchwrapper.LaunchClassLoader;
+import net.minecraftforge.fml.common.FMLLog;
 import net.minecraftforge.fml.relauncher.CoreModManager;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 import org.spongepowered.asm.launch.MixinBootstrap;
@@ -8,13 +9,18 @@ import org.spongepowered.asm.mixin.Mixins;
 
 import javax.annotation.Nullable;
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.PathMatcher;
+import java.nio.file.Paths;
 import java.util.Map;
 import java.util.Optional;
 
-@IFMLLoadingPlugin.MCVersion("1.12.2")
-@IFMLLoadingPlugin.Name("Twilight Tweaks")
+import static net.minecraftforge.fml.relauncher.IFMLLoadingPlugin.MCVersion;
+import static net.minecraftforge.fml.relauncher.IFMLLoadingPlugin.Name;
+
+@MCVersion("1.12.2")
+@Name("Twilight Tweaks")
 public class CoreMod implements IFMLLoadingPlugin {
     static File modFile;
 
@@ -38,16 +44,11 @@ public class CoreMod implements IFMLLoadingPlugin {
     public void injectData(Map<String, Object> data) {
         try {
             Path modsFolder = Paths.get("mods");
-            Optional<Path> TFJar = Files.list(modsFolder).filter( j -> {
-                try (FileSystem system = FileSystems.newFileSystem(j, null)) {
-                    Path sexFile = system.getPath("twilightforest");
-                    return Files.exists(sexFile);
-                } catch (IOException e) {
-                    return false;
-                }
-            }).findFirst();
-            if (TFJar.isPresent()) loadModJar(new File(TFJar.get().toString()));
-
+            PathMatcher twilightForestPath = modsFolder.getFileSystem().getPathMatcher("glob:twilightforest-1.12.2*universal.jar");
+            Optional<Path> tfMatcher1Jar = Files.list(modsFolder).filter(jar -> twilightForestPath.matches(jar.getFileName())).findFirst();
+            if (tfMatcher1Jar.isPresent()) {
+                loadModJar(new File(tfMatcher1Jar.get().toString()));
+            } else FMLLog.log.error("Twilight Forest jar is either missing or renamed!");
         } catch (Exception e) {
             e.printStackTrace();
         }
