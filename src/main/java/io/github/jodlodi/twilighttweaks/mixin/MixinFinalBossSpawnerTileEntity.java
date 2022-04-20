@@ -13,7 +13,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
-import twilightforest.client.particle.ParticleAnnihilate;
 import twilightforest.tileentity.spawner.TileEntityTFBossSpawner;
 import twilightforest.tileentity.spawner.TileEntityTFFinalBossSpawner;
 
@@ -73,16 +72,11 @@ public class MixinFinalBossSpawnerTileEntity extends TileEntityTFBossSpawner {
     @Unique
     public void update() {
         if (!this.spawnedBoss && this.anyPlayerInRange()) {
-            if (this.world.isRemote) {
-                for (int i = 0; i < 2; i++) {
-                    double rx = ((float)this.pos.getX() + this.world.rand.nextFloat());
-                    double ry = ((float)this.pos.getY() + this.world.rand.nextFloat());
-                    double rz = ((float)this.pos.getZ() + this.world.rand.nextFloat());
-                    new ParticleAnnihilate(this.world, rx, ry, rz, 0, 0, 0);
+            if (!this.world.isRemote) {
+                if (this.spawnMyBoss()) {
+                    this.world.destroyBlock(this.pos, false);
+                    this.spawnedBoss = true;
                 }
-            } else if (this.spawnMyBoss()) {
-                this.world.destroyBlock(this.pos, false);
-                this.spawnedBoss = true;
             }
         }
     }
