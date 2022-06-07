@@ -4,10 +4,10 @@ effect give @e[type= minecraft:husk, sort= nearest, limit= 1] minecraft:invisibi
 effect give @e[type= minecraft:husk, sort= nearest, limit= 1] minecraft:absorption 999999 44 true
 effect give @e[type= minecraft:husk, sort= nearest, limit= 1] minecraft:strength 999999 4 true
 effect give @e[type= minecraft:husk, sort= nearest, limit= 1] minecraft:speed 999999 2 true
-execute positioned as @p run summon twilightforest:death_tome ~1.2 ~-1 ~1.2 {PersistenceRequired:1,CustomName:"\"Book of Flow\"",CustomNameVisible:0b}
-execute positioned as @p run summon twilightforest:death_tome ~1.2 ~-1 ~-1.2 {PersistenceRequired:1,CustomName:"\"Book of Form\"",CustomNameVisible:0b}
-execute positioned as @p run summon twilightforest:death_tome ~-1.2 ~-1 ~-1.2 {PersistenceRequired:1,CustomName:"\"Book of Stone\"",CustomNameVisible:0b}
-execute positioned as @p run summon twilightforest:death_tome ~-1.2 ~-1 ~1.2 {PersistenceRequired:1,CustomName:"\"Book of Order\"",CustomNameVisible:0b}
+execute positioned as @p run summon twilightforest:death_tome ~1.2 ~1 ~1.2 {PersistenceRequired:1,CustomName:"\"Book of Flow\"",CustomNameVisible:0b}
+execute positioned as @p run summon twilightforest:death_tome ~1.2 ~1 ~-1.2 {PersistenceRequired:1,CustomName:"\"Book of Form\"",CustomNameVisible:0b}
+execute positioned as @p run summon twilightforest:death_tome ~-1.2 ~1 ~-1.2 {PersistenceRequired:1,CustomName:"\"Book of Stone\"",CustomNameVisible:0b}
+execute positioned as @p run summon twilightforest:death_tome ~-1.2 ~1 ~1.2 {PersistenceRequired:1,CustomName:"\"Book of Order\"",CustomNameVisible:0b}
 effect give @e[type= twilightforest:death_tome, sort= nearest, limit= 4] minecraft:absorption 999999 7 true
 effect give @e[type= twilightforest:death_tome, sort= nearest, limit= 4] minecraft:strength 999999 1 true
 effect give @e[type= twilightforest:death_tome, sort= nearest, limit= 4] minecraft:speed 999999 5 true

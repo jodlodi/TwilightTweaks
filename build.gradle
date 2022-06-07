@@ -22,11 +22,11 @@ version = '1.0'
 group = 'io.github.jodlodi.twilighttweaks'
 archivesBaseName = 'twilighttweaks'
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(8)
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
-    mappings channel: 'official', version: '1.16.5'
+    mappings channel: 'official', version: '1.18.2'
     runs {
         client {
             workingDirectory project.file('run')
@@ -71,21 +71,16 @@ minecraft {
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.16.5-36.2.0'
-
-    implementation fg.deobf("curse.maven:twilightforest-227639:3413560")
-
-    compileOnly fg.deobf("mezz.jei:jei-1.16.5:7.7.1.110:api")
-    runtimeOnly fg.deobf("mezz.jei:jei-1.16.5:7.7.1.110")
-
+    minecraft 'net.minecraftforge:forge:1.18.2-40.1.47'
+    implementation fg.deobf("teamtwilight:twilightforest:4.1.1056:universal")
     annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
 }
 
 repositories {
     maven { url "https://maven.jaackson.me" }
-    maven { url "https://www.cursemaven.com" }
-    maven { url "https://dvs1.progwml6.com/files/maven/" }
-    maven { url "https://modmaven.k-4u.nl" }
+    //maven { url "https://dvs1.progwml6.com/files/maven/" }
+    //maven { url "https://modmaven.k-4u.nl" }
+    maven { url "https://modmaven.dev/" }
 }
 
 jar {
