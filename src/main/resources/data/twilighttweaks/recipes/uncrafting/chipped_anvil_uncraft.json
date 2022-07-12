@@ -1,12 +1,8 @@
 {
-  "type": "twilighttweaks:uncrafting",
-  "group": "twilighttweaks",
-  "replace": false,
+  "type": "twilightforest:uncrafting",
+  "ingredient": { "item": "minecraft:chipped_anvil" },
+  "count": 1,
   "cost": 7,
-  "ingredient": {
-    "item": "minecraft:chipped_anvil",
-    "count": 1
-  },
   "pattern": [
     "011",
     " 1 ",

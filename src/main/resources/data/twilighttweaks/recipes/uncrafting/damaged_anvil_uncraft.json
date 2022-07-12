@@ -1,12 +1,8 @@
 {
-  "type": "twilighttweaks:uncrafting",
-  "group": "twilighttweaks",
-  "replace": false,
+  "type": "twilightforest:uncrafting",
+  "ingredient": { "item": "minecraft:damaged_anvil" },
+  "count": 1,
   "cost": 6,
-  "ingredient": {
-    "item": "minecraft:damaged_anvil",
-    "count": 1
-  },
   "pattern": [
     "00 ",
     " 0 ",

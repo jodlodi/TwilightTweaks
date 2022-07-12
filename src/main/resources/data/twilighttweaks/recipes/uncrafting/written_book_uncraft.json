@@ -1,12 +1,8 @@
 {
-  "type": "twilighttweaks:uncrafting",
-  "group": "twilighttweaks",
-  "replace": false,
+  "type": "twilightforest:uncrafting",
+  "ingredient": { "tag": "twilightforest:fiery_vial" },
+  "count": 1,
   "cost": 2,
-  "ingredient": {
-    "item": "minecraft:written_book",
-    "count": 1
-  },
   "pattern": [
     "01 "
   ],

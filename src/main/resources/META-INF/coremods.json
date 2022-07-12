@@ -1,0 +1,5 @@
+{
+  "bossspawner": "META-INF/asm/bossspawner.js",
+  "finalspawner": "META-INF/asm/finalspawner.js",
+  "gazebo": "META-INF/asm/gazebo.js"
+}

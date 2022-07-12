@@ -13,3 +13,4 @@ effect give @e[type= twilightforest:death_tome, sort= nearest, limit= 4] minecra
 effect give @e[type= twilightforest:death_tome, sort= nearest, limit= 4] minecraft:speed 999999 5 true
 summon minecraft:lightning_bolt ~ ~6 ~
 effect give @p minecraft:blindness 5
+give @p written_book{pages:['["",{"text":"The dungeon is still a work in progress!","bold":true},{"text":"\\n\\n","color":"reset"},{"text":"You can join the Twilight Forest Discord server to follow the latest updates on this castle and other content at:","color":"black"},{"text":"\\n","color":"reset"},{"text":"experiment115.com","italic":true,"underlined":true,"color":"blue","clickEvent":{"action":"open_url","value":"https://discord.com/invite/r6YYMsF"}}]'],title:"You win!",author:jodi,display:{Lore:["Join our discord!"]}}

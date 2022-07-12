@@ -1,12 +1,8 @@
 {
-  "type": "twilighttweaks:uncrafting",
-  "group": "twilighttweaks",
-  "replace": false,
+  "type": "twilightforest:uncrafting",
+  "ingredient": { "item": "minecraft:tipped_arrow" },
+  "count": 8,
   "cost": 4,
-  "ingredient": {
-    "item": "minecraft:tipped_arrow",
-    "count": 8
-  },
   "pattern": [
     "000",
     "0 0",

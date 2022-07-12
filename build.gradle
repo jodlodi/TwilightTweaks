@@ -1,22 +1,15 @@
 buildscript {
     repositories {
         maven { url = 'https://maven.minecraftforge.net' }
-        maven { url = "https://repo.spongepowered.org/repository/maven-public/" }
         mavenCentral()
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-        classpath group: "org.spongepowered", name: "mixingradle", version: "0.7-SNAPSHOT"
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
-apply plugin: 'org.spongepowered.mixin'
-
-mixin {
-    add sourceSets.main, "twilighttweaks.mixin-refmap.json"
-}
 
 version = '1.0'
 group = 'io.github.jodlodi.twilighttweaks'
@@ -27,13 +20,14 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
     mappings channel: 'official', version: '1.18.2'
+    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+
     runs {
         client {
             workingDirectory project.file('run')
             property 'forge.logging.markers', "SCAN,REGISTRIES,REGISTRYDUMP"
             property 'forge.logging.console.level', 'debug'
-            property "mixin.env.disableRefMap", "true"
-            arg "-mixin.config=twilighttweaks.mixin.json"
+
             mods {
                 twilighttweaks {
                     source sourceSets.main
@@ -45,8 +39,7 @@ minecraft {
             workingDirectory project.file('run')
             property 'forge.logging.markers', "SCAN,REGISTRIES,REGISTRYDUMP"
             property 'forge.logging.console.level', 'debug'
-            property "mixin.env.disableRefMap", "true"
-            arg "-mixin.config=twilighttweaks.mixin.json"
+
             mods {
                 twilighttweaks {
                     source sourceSets.main
@@ -59,6 +52,7 @@ minecraft {
             property 'forge.logging.markers', "SCAN,REGISTRIES,REGISTRYDUMP"
             property 'forge.logging.console.level', 'debug'
             args '--mod', 'twilighttweaks', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+
             mods {
                 twilighttweaks {
                     source sourceSets.main
@@ -72,15 +66,19 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 dependencies {
     minecraft 'net.minecraftforge:forge:1.18.2-40.1.47'
-    implementation fg.deobf("teamtwilight:twilightforest:4.1.1056:universal")
-    annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
+
+    compileOnly fg.deobf("mezz.jei:jei-1.18.2:9.7.0.195:api")
+    runtimeOnly fg.deobf("mezz.jei:jei-1.18.2:9.7.0.195")
+
+    implementation fg.deobf("teamtwilight:twilightforest:4.1.1172:universal")
+    implementation fg.deobf("team-twilight:crossdimcommands:1.18.2-1.0")
 }
 
 repositories {
     maven { url "https://maven.jaackson.me" }
-    //maven { url "https://dvs1.progwml6.com/files/maven/" }
-    //maven { url "https://modmaven.k-4u.nl" }
+    maven { url "https://dvs1.progwml6.com/files/maven/" }
     maven { url "https://modmaven.dev/" }
+    maven { url "https://maven.tamaized.com/releases" }
 }
 
 jar {
@@ -92,10 +90,7 @@ jar {
             "Implementation-Title": project.name,
             "Implementation-Version": "1.0",
             "Implementation-Vendor" :"jodlodi",
-            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-            "TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
-            "TweakOrder": 0,
-            "MixinConfigs" : "twilighttweaks.mixin.json"
+            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
 }
