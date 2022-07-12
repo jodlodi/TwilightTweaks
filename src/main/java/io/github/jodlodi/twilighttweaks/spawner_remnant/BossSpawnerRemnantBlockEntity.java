@@ -13,8 +13,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ForgeRegistries;
-import twilightforest.data.tags.EntityTagGenerator;
+import twilightforest.data.EntityTagGenerator;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Random;
@@ -40,11 +41,11 @@ public class BossSpawnerRemnantBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag compoundTag) {
-        super.saveAdditional(compoundTag);
+    public @Nonnull CompoundTag save(CompoundTag compoundTag) {
         compoundTag.putString("spawnerLocation", this.spawnerLocation);
         compoundTag.putBoolean("active", this.active);
         compoundTag.putInt("reSpawnerTick", this.reSpawnerTick);
+        return super.save(compoundTag);
     }
 
     @Override

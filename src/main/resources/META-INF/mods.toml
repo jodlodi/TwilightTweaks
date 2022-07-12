@@ -1,6 +1,6 @@
 
 modLoader="javafml"
-loaderVersion="[36,)"
+loaderVersion="[37,)"
 license="LGPL 2.1"
 [[mods]]
 modId="twilighttweaks"
@@ -17,14 +17,14 @@ Tweaks to the Twilight Forest mod.
 [[dependencies.twilighttweaks]]
     modId="forge"
     mandatory=true
-    versionRange="[36,)"
+    versionRange="[37,)"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.twilighttweaks]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.18.2,1.19)"
+    versionRange="[1.17.1,1.18)"
     ordering="NONE"
     side="BOTH"
 

@@ -14,8 +14,8 @@ function initializeCoreMod() {
             'target': {
                 'type': 'METHOD',
                 'class': 'twilightforest/world/components/structures/finalcastle/FinalCastleBossGazeboComponent',
-                'methodName': ASM.mapMethod('m_183269_'), // postProcess
-                'methodDesc': '(Lnet/minecraft/world/level/WorldGenLevel;Lnet/minecraft/world/level/StructureFeatureManager;Lnet/minecraft/world/level/chunk/ChunkGenerator;Ljava/util/Random;Lnet/minecraft/world/level/levelgen/structure/BoundingBox;Lnet/minecraft/world/level/ChunkPos;Lnet/minecraft/core/BlockPos;)V'
+                'methodName': ASM.mapMethod('m_7832_'), // postProcess
+                'methodDesc': '(Lnet/minecraft/world/level/WorldGenLevel;Lnet/minecraft/world/level/StructureFeatureManager;Lnet/minecraft/world/level/chunk/ChunkGenerator;Ljava/util/Random;Lnet/minecraft/world/level/levelgen/structure/BoundingBox;Lnet/minecraft/world/level/ChunkPos;Lnet/minecraft/core/BlockPos;)Z'
             },
             'transformer': function (/*org.objectweb.asm.tree.MethodNode*/ methodNode) {
                 var /*org.objectweb.asm.tree.InsnList*/ instructions = methodNode.instructions;
@@ -32,7 +32,8 @@ function initializeCoreMod() {
                             '(Lnet/minecraft/world/level/levelgen/structure/StructurePiece;Lnet/minecraft/world/level/WorldGenLevel;Lnet/minecraft/world/level/levelgen/structure/BoundingBox;)V',
                             false
                             ),
-                        new InsnNode(Opcodes.RETURN)
+                        new InsnNode(Opcodes.ICONST_0),
+                        new InsnNode(Opcodes.IRETURN)
                         )
                     );
                 return methodNode;

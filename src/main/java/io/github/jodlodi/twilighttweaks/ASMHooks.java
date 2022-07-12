@@ -11,12 +11,13 @@ import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.NotNull;
+import twilightforest.TwilightForestMod;
 import twilightforest.block.TFBlocks;
 import twilightforest.block.entity.spawner.BossSpawnerBlockEntity;
 import twilightforest.block.entity.spawner.FinalBossSpawnerBlockEntity;
 import twilightforest.world.components.structures.finalcastle.FinalCastleBossGazeboComponent;
 
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Objects;
 import java.util.Random;
@@ -46,7 +47,7 @@ public class ASMHooks {
     public static boolean finalSpawner(BlockPos pos, ServerLevelAccessor levelAccessor) {
         BaseCommandBlock commandBlock = new BaseCommandBlock() {
             @Override
-            public @NotNull ServerLevel getLevel() {
+            public @Nonnull ServerLevel getLevel() {
                 return levelAccessor.getLevel();
             }
 
@@ -56,12 +57,12 @@ public class ASMHooks {
             }
 
             @Override
-            public @NotNull Vec3 getPosition() {
+            public @Nonnull Vec3 getPosition() {
                 return Vec3.atCenterOf(pos);
             }
 
             @Override
-            public @NotNull CommandSourceStack createCommandSourceStack() {
+            public @Nonnull CommandSourceStack createCommandSourceStack() {
                 return new CommandSourceStack(this, this.getPosition(), Vec2.ZERO, this.getLevel(), 2, this.getName().getString(), this.getName(), this.getLevel().getServer(), null);
             }
 
@@ -81,6 +82,7 @@ public class ASMHooks {
      * [BEFORE GETSTATIC]
      */
     public static void gazebo(StructurePiece structurePiece, WorldGenLevel level, BoundingBox sbb) {
+        TwilightForestMod.LOGGER.error("Gazebo ASM");
         structurePiece.placeBlock(level, TFBlocks.FINAL_BOSS_BOSS_SPAWNER.get().defaultBlockState(), 10, 1, 10, sbb);
     }
 }

@@ -1,6 +1,5 @@
 package io.github.jodlodi.twilighttweaks;
 
-import com.mojang.logging.LogUtils;
 import io.github.jodlodi.twilighttweaks.spawner_remnant.BossSpawnerRemnantBlock;
 import io.github.jodlodi.twilighttweaks.spawner_remnant.BossSpawnerRemnantBlockEntity;
 import net.minecraft.world.item.Item;
@@ -15,10 +14,9 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
-import org.slf4j.Logger;
 
 import static twilightforest.item.TFItems.defaultBuilder;
 
@@ -28,7 +26,6 @@ import static twilightforest.item.TFItems.defaultBuilder;
 public class TwilightTweaks
 {
     public static final String MOD_ID = "twilighttweaks";
-    public static final Logger LOGGER = LogUtils.getLogger();
 
     public static final DeferredRegister<Block> BLOCK_REGISTRY = DeferredRegister.create(ForgeRegistries.BLOCKS, TwilightTweaks.MOD_ID);
 
