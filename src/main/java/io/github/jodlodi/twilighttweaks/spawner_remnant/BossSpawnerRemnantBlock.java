@@ -33,8 +33,8 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 public class BossSpawnerRemnantBlock extends BaseEntityBlock {
-    private static final VoxelShape BITCH = Block.box(6, 6, 6, 10, 10, 10);
-    private static final VoxelShape NO_BITCHES = Shapes.empty();
+    private static final VoxelShape WITH_HITBOX = Block.box(6, 6, 6, 10, 10, 10);
+    private static final VoxelShape NO_HITBOX = Shapes.empty();
 
     public BossSpawnerRemnantBlock(Properties properties) {
         super(properties);
@@ -85,7 +85,7 @@ public class BossSpawnerRemnantBlock extends BaseEntityBlock {
     @Override
     @SuppressWarnings("deprecation")
     public @NotNull VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
-        return blockGetter.getBlockEntity(pos) instanceof BossSpawnerRemnantBlockEntity spawnerRemnant && !spawnerRemnant.active ? NO_BITCHES : BITCH;
+        return blockGetter.getBlockEntity(pos) instanceof BossSpawnerRemnantBlockEntity spawnerRemnant && !spawnerRemnant.active ? NO_HITBOX : WITH_HITBOX;
     }
 
     @Override

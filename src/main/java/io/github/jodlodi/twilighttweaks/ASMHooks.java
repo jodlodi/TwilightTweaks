@@ -30,9 +30,11 @@ public class ASMHooks {
      * [AFTER PUTFIELD]
      */
     public static void bossSpawner(Level level, BlockPos pos, BlockState state) {
-        level.setBlock(pos, TwilightTweaks.BOSS_SPAWNER_REMNANT.get().defaultBlockState(), 2);
-        if (level.getBlockEntity(pos) instanceof BossSpawnerRemnantBlockEntity spawnerRemnant) {
-            spawnerRemnant.setSpawnerLocation(Objects.requireNonNull(state.getBlock().getRegistryName()).toString());
+        if (TweakConfig.remnantFlag) {
+            level.setBlock(pos, TwilightTweaks.BOSS_SPAWNER_REMNANT.get().defaultBlockState(), 2);
+            if (level.getBlockEntity(pos) instanceof BossSpawnerRemnantBlockEntity spawnerRemnant) {
+                spawnerRemnant.setSpawnerLocation(Objects.requireNonNull(state.getBlock().getRegistryName()).toString());
+            }
         }
     }
 

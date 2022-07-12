@@ -1,6 +1,6 @@
 {
   "type": "twilightforest:uncrafting",
-  "ingredient": { "tag": "twilightforest:fiery_vial" },
+  "ingredient": { "item": "minecraft:written_book" },
   "count": 1,
   "cost": 2,
   "pattern": [

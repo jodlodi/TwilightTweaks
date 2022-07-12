@@ -1,4 +1,4 @@
-package io.github.jodlodi.twilighttweaks.reg;
+package io.github.jodlodi.twilighttweaks.event;
 
 import io.github.jodlodi.twilighttweaks.TwilightTweaks;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
@@ -12,7 +12,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD, modid = TwilightTweaks.MOD_ID)
-public class ClientSetup {
+public class ClientEventSubscriber {
 
     @SubscribeEvent
     public static void clientSetup(FMLClientSetupEvent evt) {

@@ -1,7 +1,7 @@
 {
   "variants": {
-    "active=true": {
-      "model": "twilighttweaks:block/boss_spawner_remnant"
+    "": {
+      "model": "minecraft:block/air"
     }
   }
 }

@@ -70,7 +70,7 @@ dependencies {
     compileOnly fg.deobf("mezz.jei:jei-1.18.2:9.7.0.195:api")
     runtimeOnly fg.deobf("mezz.jei:jei-1.18.2:9.7.0.195")
 
-    implementation fg.deobf("teamtwilight:twilightforest:4.1.1172:universal")
+    implementation fg.deobf("teamtwilight:twilightforest:4.1.1181:universal")
     implementation fg.deobf("team-twilight:crossdimcommands:1.18.2-1.0")
 }
 

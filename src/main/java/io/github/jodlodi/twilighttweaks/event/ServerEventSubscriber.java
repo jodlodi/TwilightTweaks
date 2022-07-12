@@ -1,5 +1,6 @@
 package io.github.jodlodi.twilighttweaks.event;
 
+import io.github.jodlodi.twilighttweaks.TweakConfig;
 import io.github.jodlodi.twilighttweaks.TwilightTweaks;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Mob;
@@ -18,7 +19,7 @@ public class ServerEventSubscriber {
     @SubscribeEvent
     public static void livingDropsEventListener(LivingDropsEvent event) {
         if (event.getEntity() instanceof Mob mob && mob instanceof Enemy && mob.level instanceof ServerLevel serverLevel && serverLevel.dimension().location().equals(TFGenerationSettings.DIMENSION)) {
-            if (serverLevel.random.nextInt(200) == 0) mob.spawnAtLocation(TwilightTweaks.TIME_POWDER.get());
+            if (TweakConfig.remnantFlag && serverLevel.random.nextInt(200) == 0) mob.spawnAtLocation(TwilightTweaks.TIME_POWDER.get());
         }
     }
 }
