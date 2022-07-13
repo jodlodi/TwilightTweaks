@@ -4,6 +4,7 @@ import io.github.jodlodi.twilighttweaks.spawner_remnant.BossSpawnerRemnantBlockE
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
@@ -11,14 +12,15 @@ import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
-import twilightforest.TwilightForestMod;
 import twilightforest.block.TFBlocks;
 import twilightforest.block.entity.spawner.BossSpawnerBlockEntity;
 import twilightforest.block.entity.spawner.FinalBossSpawnerBlockEntity;
+import twilightforest.item.recipe.UncraftingRecipe;
 import twilightforest.world.components.structures.finalcastle.FinalCastleBossGazeboComponent;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Random;
 
@@ -81,8 +83,16 @@ public class ASMHooks {
      * {@link FinalCastleBossGazeboComponent#postProcess(WorldGenLevel, StructureFeatureManager, ChunkGenerator, Random, BoundingBox, ChunkPos, BlockPos)}<br>
      * [BEFORE GETSTATIC]
      */
-    public static void gazebo(StructurePiece structurePiece, WorldGenLevel level, BoundingBox sbb) {
-        TwilightForestMod.LOGGER.error("Gazebo ASM");
-        structurePiece.placeBlock(level, TFBlocks.FINAL_BOSS_BOSS_SPAWNER.get().defaultBlockState(), 10, 1, 10, sbb);
+    public static void gazebo(StructurePiece structurePiece, WorldGenLevel level) {
+        structurePiece.placeBlock(level, TFBlocks.FINAL_BOSS_BOSS_SPAWNER.get().defaultBlockState(), 10, 1, 10, structurePiece.getBoundingBox());
+    }
+
+    /**
+     * Injection Point:<br>
+     * {@link UncraftingRecipe#isItemStackAnIngredient(ItemStack)}<br>
+     * [BEFORE GETFIELD]
+     */
+    public static boolean uncraft(UncraftingRecipe uncraftingRecipe, ItemStack itemStack) {
+        return Arrays.stream(uncraftingRecipe.getIngredient().getItems()).anyMatch(i -> (itemStack.getItem() == i.getItem() && itemStack.getCount() >= uncraftingRecipe.getCount()));
     }
 }

@@ -66,6 +66,8 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 dependencies {
     minecraft 'net.minecraftforge:forge:1.17.1-37.1.1'
+    compileOnly fg.deobf("mezz.jei:jei-1.17.1:8.1.0.19:api")
+    runtimeOnly fg.deobf("mezz.jei:jei-1.17.1:8.1.0.19")
     implementation fg.deobf("teamtwilight:twilightforest:4.0.943:universal")
 }
 

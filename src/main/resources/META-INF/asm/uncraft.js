@@ -10,28 +10,26 @@ var InsnNode = Java.type('org.objectweb.asm.tree.InsnNode');
 // noinspection JSUnusedGlobalSymbols
 function initializeCoreMod() {
     return {
-        'gazeboSpawner': {
+        'uncrafting': {
             'target': {
                 'type': 'METHOD',
-                'class': 'twilightforest/world/components/structures/finalcastle/FinalCastleBossGazeboComponent',
-                'methodName': ASM.mapMethod('m_7832_'), // postProcess
-                'methodDesc': '(Lnet/minecraft/world/level/WorldGenLevel;Lnet/minecraft/world/level/StructureFeatureManager;Lnet/minecraft/world/level/chunk/ChunkGenerator;Ljava/util/Random;Lnet/minecraft/world/level/levelgen/structure/BoundingBox;Lnet/minecraft/world/level/ChunkPos;Lnet/minecraft/core/BlockPos;)Z'
+                'class': 'twilightforest/item/recipe/UncraftingRecipe',
+                'methodName': 'isItemStackAnIngredient',
+                'methodDesc': '(Lnet/minecraft/world/item/ItemStack;)Z'
             },
             'transformer': function (/*org.objectweb.asm.tree.MethodNode*/ methodNode) {
                 var /*org.objectweb.asm.tree.InsnList*/ instructions = methodNode.instructions;
                 instructions.insertBefore(
-                    ASM.findFirstInstruction(methodNode, Opcodes.GETSTATIC),
+                    ASM.findFirstInstruction(methodNode, Opcodes.GETFIELD),
                     ASM.listOf(
-                        new VarInsnNode(Opcodes.ALOAD, 0),
                         new VarInsnNode(Opcodes.ALOAD, 1),
                         new MethodInsnNode(
                             Opcodes.INVOKESTATIC,
                             'io/github/jodlodi/twilighttweaks/ASMHooks',
-                            'gazebo',
-                            '(Lnet/minecraft/world/level/levelgen/structure/StructurePiece;Lnet/minecraft/world/level/WorldGenLevel;)V',
+                            'uncraft',
+                            '(Ltwilightforest/item/recipe/UncraftingRecipe;Lnet/minecraft/world/item/ItemStack;)Z',
                             false
                             ),
-                        new InsnNode(Opcodes.ICONST_0),
                         new InsnNode(Opcodes.IRETURN)
                         )
                     );
