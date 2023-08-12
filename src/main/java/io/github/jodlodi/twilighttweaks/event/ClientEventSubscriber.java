@@ -1,8 +1,6 @@
 package io.github.jodlodi.twilighttweaks.event;
 
 import io.github.jodlodi.twilighttweaks.TwilightTweaks;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -16,6 +14,6 @@ public class ClientEventSubscriber {
 
     @SubscribeEvent
     public static void clientSetup(FMLClientSetupEvent evt) {
-        ItemBlockRenderTypes.setRenderLayer(TwilightTweaks.BOSS_SPAWNER_REMNANT.get(), RenderType.cutout());
+        //ItemBlockRenderTypes.setRenderLayer(TwilightTweaks.BOSS_SPAWNER_REMNANT.get(), RenderType.cutout());
     }
 }

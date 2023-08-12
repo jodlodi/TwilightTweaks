@@ -11,7 +11,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = '1.18.2-1.1'
+version = '1.19.2-1.2'
 group = 'io.github.jodlodi.twilighttweaks'
 archivesBaseName = 'twilighttweaks'
 
@@ -19,7 +19,7 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
-    mappings channel: 'official', version: '1.18.2'
+    mappings channel: 'official', version: '1.19.2'
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
     runs {
@@ -65,13 +65,10 @@ minecraft {
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.18.2-40.1.47'
+    minecraft 'net.minecraftforge:forge:1.19.2-43.1.24'
 
-    compileOnly fg.deobf("mezz.jei:jei-1.18.2:9.7.0.195:api")
-    runtimeOnly fg.deobf("mezz.jei:jei-1.18.2:9.7.0.195")
-
-    implementation fg.deobf("teamtwilight:twilightforest:4.1.1181:universal")
-    implementation fg.deobf("team-twilight:crossdimcommands:1.18.2-1.0")
+    implementation fg.deobf("mezz.jei:jei-1.19.2-forge:11.2.0.254")
+    implementation fg.deobf("teamtwilight:twilightforest:4.2.1518:universal")
 }
 
 repositories {

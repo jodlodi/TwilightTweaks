@@ -19,8 +19,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.slf4j.Logger;
-
-import static twilightforest.item.TFItems.defaultBuilder;
+import twilightforest.init.TFItems;
 
 @Mod(TwilightTweaks.MOD_ID)
 @SuppressWarnings("ConstantConditions")
@@ -33,9 +32,9 @@ public class TwilightTweaks
     public static final DeferredRegister<Block> BLOCK_REGISTRY = DeferredRegister.create(ForgeRegistries.BLOCKS, TwilightTweaks.MOD_ID);
 
     public static final RegistryObject<Block> BOSS_SPAWNER_REMNANT = BLOCK_REGISTRY.register("boss_spawner_remnant", () ->
-            new BossSpawnerRemnantBlock(BlockBehaviour.Properties.of(Material.STONE).strength(-1.0F, 3600000.8F).noOcclusion().noDrops().noCollission()));
+            new BossSpawnerRemnantBlock(BlockBehaviour.Properties.of(Material.STONE).strength(-1.0F, 3600000.8F).noOcclusion().noLootTable().noCollission()));
 
-    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_REGISTRY = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, TwilightTweaks.MOD_ID);
+    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_REGISTRY = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, TwilightTweaks.MOD_ID);
 
     public static final RegistryObject<BlockEntityType<BossSpawnerRemnantBlockEntity>> BOSS_SPAWNER_REMNANT_ENTITY = BLOCK_ENTITY_REGISTRY.register("boss_spawner_remnant_entity", () ->
             BlockEntityType.Builder.of(BossSpawnerRemnantBlockEntity::new, BOSS_SPAWNER_REMNANT.get()).build(null));
@@ -43,7 +42,7 @@ public class TwilightTweaks
     public static final DeferredRegister<Item> ITEM_REGISTRY = DeferredRegister.create(ForgeRegistries.ITEMS, TwilightTweaks.MOD_ID);
 
     public static final RegistryObject<Item> TIME_POWDER = ITEM_REGISTRY.register("time_powder", () ->
-            new Item(defaultBuilder()));
+            new Item(TFItems.defaultBuilder()));
 
     public TwilightTweaks() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();

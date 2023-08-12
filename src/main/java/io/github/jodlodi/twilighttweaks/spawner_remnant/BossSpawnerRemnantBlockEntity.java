@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -17,7 +18,6 @@ import twilightforest.data.tags.EntityTagGenerator;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Random;
 
 @ParametersAreNonnullByDefault
 public class BossSpawnerRemnantBlockEntity extends BlockEntity {
@@ -111,7 +111,7 @@ public class BossSpawnerRemnantBlockEntity extends BlockEntity {
         }
     }
 
-    private static double randomOffset(Random random, double point, double distance) {
+    private static double randomOffset(RandomSource random, double point, double distance) {
         return point + random.nextDouble() * distance * (random.nextBoolean() ? 1 : -1);
     }
 }
