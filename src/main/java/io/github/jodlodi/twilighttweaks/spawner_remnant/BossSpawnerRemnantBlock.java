@@ -4,7 +4,7 @@ import io.github.jodlodi.twilighttweaks.TwilightTweaks;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -65,7 +65,7 @@ public class BossSpawnerRemnantBlock extends BaseEntityBlock {
                                     0, 0, 0);
                         }
                     }
-                } else if (level.isClientSide) player.displayClientMessage(new TranslatableComponent("remnant.twilighttweaks.use").withStyle(ChatFormatting.ITALIC, ChatFormatting.GOLD), true);
+                } else if (level.isClientSide) player.displayClientMessage(Component.translatable("remnant.twilighttweaks.use").withStyle(ChatFormatting.ITALIC, ChatFormatting.GOLD), true);
                 return InteractionResult.SUCCESS;
             }
         }
