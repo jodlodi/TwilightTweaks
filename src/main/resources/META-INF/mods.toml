@@ -4,7 +4,7 @@ loaderVersion="[36,)"
 license="LGPL 2.1"
 [[mods]]
 modId="twilighttweaks"
-version="1.0"
+version="1.2"
 displayName="Twilight Tweaks"
 #updateJSONURL="https://change.me.example.invalid/updates.json" #optional
 #displayURL="https://change.me.to.your.mods.homepage.example.invalid/" #optional
@@ -24,7 +24,7 @@ Tweaks to the Twilight Forest mod.
 [[dependencies.twilighttweaks]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.18.2,1.19)"
+    versionRange="[1.19.2,)"
     ordering="NONE"
     side="BOTH"
 

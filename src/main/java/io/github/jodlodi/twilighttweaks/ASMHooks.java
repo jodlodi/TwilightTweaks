@@ -11,10 +11,11 @@ import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
-import twilightforest.block.TFBlocks;
 import twilightforest.block.entity.spawner.BossSpawnerBlockEntity;
 import twilightforest.block.entity.spawner.FinalBossSpawnerBlockEntity;
+import twilightforest.init.TFBlocks;
 import twilightforest.world.components.structures.finalcastle.FinalCastleBossGazeboComponent;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -33,7 +34,7 @@ public class ASMHooks {
         if (TweakConfig.remnantFlag) {
             level.setBlock(pos, TwilightTweaks.BOSS_SPAWNER_REMNANT.get().defaultBlockState(), 2);
             if (level.getBlockEntity(pos) instanceof BossSpawnerRemnantBlockEntity spawnerRemnant) {
-                spawnerRemnant.setSpawnerLocation(Objects.requireNonNull(state.getBlock().getRegistryName()).toString());
+                spawnerRemnant.setSpawnerLocation(Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(state.getBlock())).toString());
             }
         }
     }
@@ -68,6 +69,11 @@ public class ASMHooks {
             @Override
             public boolean shouldInformAdmins() {
                 return false; //We don't want admins (or single-player players) to be informed of commands going off each time the final spawner goes off
+            }
+
+            @Override
+            public boolean isValid() {
+                return true;
             }
         };
 

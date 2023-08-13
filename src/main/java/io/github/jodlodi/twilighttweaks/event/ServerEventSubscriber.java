@@ -18,7 +18,7 @@ public class ServerEventSubscriber {
 
     @SubscribeEvent
     public static void livingDropsEventListener(LivingDropsEvent event) {
-        if (event.getEntity() instanceof Mob mob && mob instanceof Enemy && mob.level instanceof ServerLevel serverLevel && serverLevel.dimension().location().equals(TFGenerationSettings.DIMENSION)) {
+        if (event.getEntity() instanceof Mob mob && mob instanceof Enemy && mob.level() instanceof ServerLevel serverLevel && serverLevel.dimension().location().equals(TFGenerationSettings.DIMENSION)) {
             if (TweakConfig.remnantFlag && serverLevel.random.nextInt(200) == 0) mob.spawnAtLocation(TwilightTweaks.TIME_POWDER.get());
         }
     }
