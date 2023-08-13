@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "twilighttweaks:items/time_powder"
+    "layer0": "twilighttweaks:item/time_powder"
   }
 }
