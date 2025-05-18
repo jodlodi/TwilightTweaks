@@ -1,8 +1,11 @@
 package io.github.jodlodi.twilighttweaks.spawner_remnant;
 
 import io.github.jodlodi.twilighttweaks.TwilightTweaks;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
@@ -13,15 +16,15 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.registries.ForgeRegistries;
 import twilightforest.data.tags.EntityTagGenerator;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+@MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public class BossSpawnerRemnantBlockEntity extends BlockEntity {
-    private String spawnerLocation;
+    private @Nullable String spawnerLocation;
     public boolean active = false;
     public int reSpawnerTick = 0;
 
@@ -34,25 +37,26 @@ public class BossSpawnerRemnantBlockEntity extends BlockEntity {
     }
 
     public @Nullable Block getSpawnerBlock() {
-        if (this.spawnerLocation != null) {
-            return ForgeRegistries.BLOCKS.getValue(new ResourceLocation(spawnerLocation));
+        if (this.spawnerLocation != null && this.level != null) {
+            return this.level.registryAccess().registryOrThrow(Registries.BLOCK).get(ResourceLocation.tryParse(spawnerLocation));
         } else return null;
     }
 
     @Override
-    protected void saveAdditional(CompoundTag compoundTag) {
-        super.saveAdditional(compoundTag);
-        compoundTag.putString("spawnerLocation", this.spawnerLocation);
-        compoundTag.putBoolean("active", this.active);
-        compoundTag.putInt("reSpawnerTick", this.reSpawnerTick);
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
+        if (this.spawnerLocation != null) tag.putString("spawnerLocation", this.spawnerLocation);
+        tag.putBoolean("active", this.active);
+        tag.putInt("reSpawnerTick", this.reSpawnerTick);
     }
 
     @Override
-    public void load(CompoundTag compoundTag) {
-        super.load(compoundTag);
-        this.spawnerLocation = compoundTag.getString("spawnerLocation");
-        this.active = compoundTag.getBoolean("active");
-        this.reSpawnerTick = compoundTag.getInt("reSpawnerTick");
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        if (tag.contains("spawnerLocation")) this.spawnerLocation = tag.getString("spawnerLocation");
+        else this.spawnerLocation = null;
+        this.active = tag.getBoolean("active");
+        this.reSpawnerTick = tag.getInt("reSpawnerTick");
     }
 
     public static void shtick(Level level, BlockPos pos, BlockState state, BossSpawnerRemnantBlockEntity te) {
@@ -73,25 +77,25 @@ public class BossSpawnerRemnantBlockEntity extends BlockEntity {
                 double maxZ = center.z + distance;
                 double minZ = center.z - distance;
 
-                addRandomStationaryParticle(level, tick, randomOffset(level.random, center.x, distance), maxY, maxZ);
-                addRandomStationaryParticle(level, tick, randomOffset(level.random, center.x, distance), maxY, minZ);
-                addRandomStationaryParticle(level, tick, randomOffset(level.random, center.x, distance), minY, maxZ);
-                addRandomStationaryParticle(level, tick, randomOffset(level.random, center.x, distance), minY, minZ);
+                te.addRandomStationaryParticle(level, tick, randomOffset(level.random, center.x, distance), maxY, maxZ);
+                te.addRandomStationaryParticle(level, tick, randomOffset(level.random, center.x, distance), maxY, minZ);
+                te.addRandomStationaryParticle(level, tick, randomOffset(level.random, center.x, distance), minY, maxZ);
+                te.addRandomStationaryParticle(level, tick, randomOffset(level.random, center.x, distance), minY, minZ);
 
-                addRandomStationaryParticle(level, tick, maxX, randomOffset(level.random, center.y, distance), maxZ);
-                addRandomStationaryParticle(level, tick, maxX, randomOffset(level.random, center.y, distance), minZ);
-                addRandomStationaryParticle(level, tick, minX, randomOffset(level.random, center.y, distance), maxZ);
-                addRandomStationaryParticle(level, tick, minX, randomOffset(level.random, center.y, distance), minZ);
+                te.addRandomStationaryParticle(level, tick, maxX, randomOffset(level.random, center.y, distance), maxZ);
+                te.addRandomStationaryParticle(level, tick, maxX, randomOffset(level.random, center.y, distance), minZ);
+                te.addRandomStationaryParticle(level, tick, minX, randomOffset(level.random, center.y, distance), maxZ);
+                te.addRandomStationaryParticle(level, tick, minX, randomOffset(level.random, center.y, distance), minZ);
 
-                addRandomStationaryParticle(level, tick, maxX, maxY, randomOffset(level.random, center.z, distance));
-                addRandomStationaryParticle(level, tick, maxX, minY, randomOffset(level.random, center.z, distance));
-                addRandomStationaryParticle(level, tick, minX, maxY, randomOffset(level.random, center.z, distance));
-                addRandomStationaryParticle(level, tick, minX, minY, randomOffset(level.random, center.z, distance));
+                te.addRandomStationaryParticle(level, tick, maxX, maxY, randomOffset(level.random, center.z, distance));
+                te.addRandomStationaryParticle(level, tick, maxX, minY, randomOffset(level.random, center.z, distance));
+                te.addRandomStationaryParticle(level, tick, minX, maxY, randomOffset(level.random, center.z, distance));
+                te.addRandomStationaryParticle(level, tick, minX, minY, randomOffset(level.random, center.z, distance));
 
-                addRandomStationaryParticle(level, tick, randomOffset(level.random, center.x, distance), randomOffset(level.random, center.y, distance), randomOffset(level.random, center.z, distance));
-                addRandomStationaryParticle(level, tick, randomOffset(level.random, center.x, distance), randomOffset(level.random, center.y, distance), randomOffset(level.random, center.z, distance));
-                addRandomStationaryParticle(level, tick, randomOffset(level.random, center.x, distance), randomOffset(level.random, center.y, distance), randomOffset(level.random, center.z, distance));
-                addRandomStationaryParticle(level, tick, randomOffset(level.random, center.x, distance), randomOffset(level.random, center.y, distance), randomOffset(level.random, center.z, distance));
+                te.addRandomStationaryParticle(level, tick, randomOffset(level.random, center.x, distance), randomOffset(level.random, center.y, distance), randomOffset(level.random, center.z, distance));
+                te.addRandomStationaryParticle(level, tick, randomOffset(level.random, center.x, distance), randomOffset(level.random, center.y, distance), randomOffset(level.random, center.z, distance));
+                te.addRandomStationaryParticle(level, tick, randomOffset(level.random, center.x, distance), randomOffset(level.random, center.y, distance), randomOffset(level.random, center.z, distance));
+                te.addRandomStationaryParticle(level, tick, randomOffset(level.random, center.x, distance), randomOffset(level.random, center.y, distance), randomOffset(level.random, center.z, distance));
             } else if (te.reSpawnerTick >= 120) {
                 Block spawner = te.getSpawnerBlock();
                 if (spawner != null) {
@@ -104,7 +108,7 @@ public class BossSpawnerRemnantBlockEntity extends BlockEntity {
         }
     }
 
-    private static void addRandomStationaryParticle(Level level, int chance, double x, double y, double z) {
+    private void addRandomStationaryParticle(Level level, int chance, double x, double y, double z) {
         if (level.random.nextInt(100 - Math.min(99, chance)) <= chance) {
             level.addParticle(ParticleTypes.WAX_OFF, x, y, z, 0, 0, 0);
             if (level.random.nextBoolean()) level.addParticle(ParticleTypes.SMOKE, x, y, z, 0, 0, 0);

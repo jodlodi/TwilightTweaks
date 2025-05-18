@@ -1,12 +1,14 @@
 package io.github.jodlodi.twilighttweaks.spawner_remnant;
 
+import com.mojang.serialization.MapCodec;
 import io.github.jodlodi.twilighttweaks.TwilightTweaks;
 import net.minecraft.ChatFormatting;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -30,14 +32,20 @@ import twilightforest.block.SpecialMagicLogBlock;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-
+@MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public class BossSpawnerRemnantBlock extends BaseEntityBlock {
+    public static final MapCodec<BossSpawnerRemnantBlock> CODEC = simpleCodec(BossSpawnerRemnantBlock::new);
     private static final VoxelShape WITH_HITBOX = Block.box(6, 6, 6, 10, 10, 10);
     private static final VoxelShape NO_HITBOX = Shapes.empty();
 
     public BossSpawnerRemnantBlock(Properties properties) {
         super(properties);
+    }
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
     }
 
     @Override
@@ -47,11 +55,9 @@ public class BossSpawnerRemnantBlock extends BaseEntityBlock {
     }
 
     @Override
-    @SuppressWarnings("deprecation")
-    public @NotNull InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult blockHitResult) {
+    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         if (level.getBlockEntity(pos) instanceof BossSpawnerRemnantBlockEntity spawnerRemnant) {
             if (spawnerRemnant.reSpawnerTick == 0) {
-                ItemStack stack = player.getItemInHand(hand);
                 if (stack.is(TwilightTweaks.TIME_POWDER.get())) {
                     if (!player.getAbilities().instabuild) stack.shrink(1);
                     spawnerRemnant.reSpawnerTick++;
@@ -66,10 +72,10 @@ public class BossSpawnerRemnantBlock extends BaseEntityBlock {
                         }
                     }
                 } else if (level.isClientSide) player.displayClientMessage(Component.translatable("remnant.twilighttweaks.use").withStyle(ChatFormatting.ITALIC, ChatFormatting.GOLD), true);
-                return InteractionResult.SUCCESS;
+                return ItemInteractionResult.SUCCESS;
             }
         }
-        return InteractionResult.PASS;
+        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 
     @Override
@@ -83,7 +89,6 @@ public class BossSpawnerRemnantBlock extends BaseEntityBlock {
     }
 
     @Override
-    @SuppressWarnings("deprecation")
     public @NotNull VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
         return blockGetter.getBlockEntity(pos) instanceof BossSpawnerRemnantBlockEntity spawnerRemnant && !spawnerRemnant.active ? NO_HITBOX : WITH_HITBOX;
     }

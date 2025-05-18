@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "package": "io.github.jodlodi.twilighttweaks.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "BossSpawnerBlockEntityAccessor",
+    "BossSpawnerBlockEntityMixin",
+    "FinalBossSpawnerBlockEntityMixin",
+    "FinalCastleBossGazeboComponentMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
